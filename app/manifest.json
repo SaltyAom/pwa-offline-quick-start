@@ -1,0 +1,22 @@
+{
+    "short_name": "nTask",
+    "name": "nTask",
+    "icons": [
+      {
+        "src": "../img/nTaskX192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "../img/nTaskX512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "../",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "scope": "../",
+    "theme_color": "#007bff",
+    "orientation": "portrait"
+  }
