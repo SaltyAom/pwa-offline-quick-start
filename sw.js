@@ -1,4 +1,4 @@
-let cacheName = 'Component',
+let cacheName = 'v1',
     filesToCache = [
   'index.html'
 ];
@@ -16,29 +16,17 @@ self.addEventListener('install', evt => {
 
 self.addEventListener('fetch', evt => {
   evt.respondWith(
-    caches.match(evt.request)
-    .then(request => {
-      return request || fetchAndCache(evt.request);
+    caches.open(cacheName).then(cache => {
+      return cache.match(evt.request).then(response => {
+        let fetchPromise = fetch(evt.request).then(networkResponse => {
+          cache.put(evt.request, networkResponse.clone());
+          return networkResponse;
+        })
+        return response || fetchPromise;
+      })
     })
   );
 });
-
-const fetchAndCache = url => {
-  return fetch(url)
-  .then(response => {
-    if (!response.ok) {
-      throw Error(response.statusText);
-    }
-    return caches.open(cacheName)
-    .then(cache => {
-      cache.put(url, response.clone());
-      return response;
-    });
-  })
-  .catch(err => {
-    console.error('Request failed:', err);
-  });
-}
 
 self.addEventListener('activate', evt => {
   const cacheWhitelist = [cacheName];
